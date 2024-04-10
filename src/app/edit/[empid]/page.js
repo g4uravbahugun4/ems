@@ -1,3 +1,4 @@
+import EditForm from "@/components/EditForm";
 
 
 export const metadata = {
@@ -12,7 +13,7 @@ export default async function EditEmp(params) {
 
     return (
 
-        <h1>{empId}</h1>
+        <EditForm empId={empId}/>
 
     )
 }

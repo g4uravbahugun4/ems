@@ -1,9 +1,9 @@
 "use client"
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
+import { useRouter } from 'next/navigation';
 const NewEmpForm = () => {
-   
+   const router=useRouter()
     const [formData, setFormData] = useState({
         empId:'',
         name: '',
@@ -45,6 +45,7 @@ const NewEmpForm = () => {
         const updatedAddresses = [...formData.addresses];
         updatedAddresses[index] = value;
         setFormData(prevState => ({ ...prevState, addresses: updatedAddresses }));
+       
     };
 
 
@@ -56,7 +57,16 @@ const NewEmpForm = () => {
         const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
         storedEmployees.push(employeeData);
         localStorage.setItem('employees', JSON.stringify(storedEmployees));
-        window.location.reload()
+        setFormData({
+            empId: '',
+            name: '',
+            age: '',
+            department: '',
+            bloodGroup: '',
+            contactNumbers: [''],
+            addresses: ['']
+        })
+        router.push('/')
         
         }
     
@@ -70,25 +80,25 @@ const NewEmpForm = () => {
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='age' className='block text-gray-700 text-sm font-bold mb-2'>Age</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight' type='text' name='age' value={formData.age} onChange={handleChange} placeholder='Age' required />
+                    <input className='shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight' type='text' name='age' value={formData.age} onChange={handleChange} placeholder='Age' required />
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='department' className='block text-gray-700 text-sm font-bold mb-2'>Department</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight' type='text' name='department' value={formData.department} onChange={handleChange} placeholder='Department' required />
+                    <input className='shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight' type='text' name='department' value={formData.department} onChange={handleChange} placeholder='Department' required />
                 </div>
                 <div className='mb-4'>
                     <label htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Blood Group</label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight ' type='text' name='bloodGroup' value={formData.bloodGroup} onChange={handleChange} placeholder='Blood Group' required />
+                    <input className='shadow  border rounded w-full py-2 px-3 text-gray-700 leading-tight ' type='text' name='bloodGroup' value={formData.bloodGroup} onChange={handleChange} placeholder='Blood Group' required />
                 </div>
 
-                {/* Contact Numbers */}
+        
                 <div  className='mb-4 '>
                     <div htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Contacts</div>
 
                 {formData.contactNumbers.map((number, index) => (
                     <div key={index} className='mb-4 flex'>
                         <input className=' border rounded py-2 px-3 text-gray-700 leading-tight   mr-2' type='text' value={number} onChange={e => handleChangeContact(e, index)} placeholder='Contact Number' />
-                        {index === formData.contactNumbers.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>}
+                        {index == formData.contactNumbers.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>}
                     </div>
                 ))}
                 </div>
@@ -96,7 +106,7 @@ const NewEmpForm = () => {
                 <div  className='mb-4 '>
                     <div htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Addresses</div>
 
-                {/* Addresses */}
+      
                 {formData.addresses.map((address, index) => (
                     <div key={index} className='mb-4 flex'>
                         <input className=' border rounded py-2 px-3 text-gray-700 leading-tight mr-2' type='text' value={address} onChange={e => handleChangeAddress(e, index)} placeholder='Address' />
