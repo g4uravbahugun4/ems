@@ -10,8 +10,8 @@ const NewEmpForm = () => {
         age: '',
         department: '',
         bloodGroup: '',
-        contactNumbers: [''],
-        addresses: ['']
+        contactNumbers: [''], //because we can have multiple contact numbers and addresses
+        addresses: ['']  //because we can have multiple contact numbers and addresses
     });
 
     const handleChange = e => {
@@ -22,14 +22,14 @@ const NewEmpForm = () => {
     const handleAddContact = () => {
         setFormData(prevState => ({
             ...prevState,
-            contactNumbers: [...prevState.contactNumbers, '']
+            contactNumbers: [...prevState.contactNumbers, '']   //when someone clicks on add Contact , it appends one more value as empty strings in contactNumbers array due to which length of contactNumbers array increases and we see one more input which is empty
         }));
     };
 
     const handleAddAddress = () => {
         setFormData(prevState => ({
             ...prevState,
-            addresses: [...prevState.addresses, '']
+            addresses: [...prevState.addresses, '']  //when someone clicks on add address , it appends one more value as empty strings in addresses array due to which length of adress array increases and we see one more input which is empty
         }));
     };
 
@@ -43,7 +43,7 @@ const NewEmpForm = () => {
     const handleChangeAddress = (e, index) => {
         const { value } = e.target;
         const updatedAddresses = [...formData.addresses];
-        updatedAddresses[index] = value;
+        updatedAddresses[index] = value;  
         setFormData(prevState => ({ ...prevState, addresses: updatedAddresses }));
        
     };
@@ -53,7 +53,7 @@ const NewEmpForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const newEmpId = uuidv4();
-        const employeeData = { ...formData, empId: newEmpId };
+        const employeeData = { ...formData, empId: newEmpId };  //adding a unique id to each employee before adding it to local storage to be able to retrive it individually later
         const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
         storedEmployees.push(employeeData);
         localStorage.setItem('employees', JSON.stringify(storedEmployees));
@@ -92,27 +92,34 @@ const NewEmpForm = () => {
                 </div>
 
         
+            {/* Contact Numbers */}
                 <div  className='mb-4 '>
                     <div htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Contacts</div>
 
                 {formData.contactNumbers.map((number, index) => (
                     <div key={index} className='mb-4 flex'>
-                        <input className=' border rounded py-2 px-3 text-gray-700 leading-tight   mr-2' type='text' value={number} onChange={e => handleChangeContact(e, index)} placeholder='Contact Number' />
-                        {index == formData.contactNumbers.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>}
-                    </div>
+                        <input className=' border rounded py-2 px-3 text-gray-700 leading-tight   mr-2' type='text' value={number} 
+                        onChange={e => handleChangeContact(e, index)} 
+                        //We pass the index too so that we can manipulate that specific contact number from the whole array of contactNumbers  
+                        placeholder='Contact Number' />  
+                       </div>
                 ))}
+                <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>
                 </div>
 
+                {/* Addresses */}
                 <div  className='mb-4 '>
                     <div htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Addresses</div>
 
-      
                 {formData.addresses.map((address, index) => (
                     <div key={index} className='mb-4 flex'>
-                        <input className=' border rounded py-2 px-3 text-gray-700 leading-tight mr-2' type='text' value={address} onChange={e => handleChangeAddress(e, index)} placeholder='Address' />
-                        {index === formData.addresses.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddAddress}>Add Address</button>}
+                        <input className=' border rounded py-2 px-3 text-gray-700 leading-tight mr-2' type='text' value={address} 
+                        onChange={e => handleChangeAddress(e, index)} 
+                    //We pass the index too so that we can manipulate that specific address from the whole array of addresses   
+                        placeholder='Address' />
                     </div>
                 ))}
+                 <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddAddress}>Add Address</button>
                 </div>
 
                 <button className='w-full py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded ' type='submit'>Submit</button>

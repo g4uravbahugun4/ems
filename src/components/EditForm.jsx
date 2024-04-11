@@ -30,7 +30,7 @@ const router=useRouter()
                 addresses: [...employee.addresses]
             });
         }
-    }, [empId]);
+    }, [empId]);  //whenever the params empId changes , this useEffect is triggered , it finds the employee with that empdId and set The formData values to the employee's data and we see the employee old data in the input field. 
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -115,25 +115,23 @@ const router=useRouter()
                 {/* Contact Numbers */}
                 <div className='mb-4 '>
                     <div htmlFor='bloodGroup' className=' text-gray-700 text-sm font-bold mb-2'>Contacts</div>
-
                     {formData.contactNumbers.map((number, index) => (
                         <div key={index} className='mb-4 '>
-                            <input className=' border rounded py-2 px-3 text-gray-700 leading-tight   mr-2' type='text' value={number} onChange={e => handleChangeContact(e, index)} placeholder='Contact Number' />
-                            {index == formData.contactNumbers.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>}
+                            <input className=' border rounded py-2 px-3 text-gray-700 leading-tight   mr-2' type='text' value={number} onChange={e => handleChangeContact(e, index)} placeholder='Contact Number' />             
                         </div>
                     ))}
+                    <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddContact}>Add Contact</button>
                 </div>
 
+                {/* Addresses */}
                 <div className='mb-4 '>
                     <div htmlFor='bloodGroup' className='block text-gray-700 text-sm font-bold mb-2'>Addresses</div>
-
-                    {/* Addresses */}
                     {formData.addresses.map((address, index) => (
                         <div key={index} className='mb-4 flex'>
                             <input className=' border rounded py-2 px-3 text-gray-700 leading-tight mr-2' type='text' value={address} onChange={e => handleChangeAddress(e, index)} placeholder='Address' />
-                            {index === formData.addresses.length - 1 && <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddAddress}>Add Address</button>}
                         </div>
                     ))}
+                    <button className='py-1 px-3 rounded bg-green-600 text-white cursor-pointer' type='button' onClick={handleAddAddress}>Add Address</button>
                 </div>
 
                 <button className='w-full py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded ' type='submit'>Update</button>
